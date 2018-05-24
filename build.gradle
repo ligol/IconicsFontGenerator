@@ -1,0 +1,48 @@
+buildscript {
+    ext.kotlin_version = '1.2.41'
+
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+plugins {
+    id "com.gradle.plugin-publish" version "0.9.10"
+}
+
+apply plugin: 'kotlin'
+
+group 'fr.ligol'
+version '1.0-alpha1'
+
+sourceCompatibility = 1.8
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile 'com.squareup.okhttp3:okhttp:3.10.0'
+    // https://mvnrepository.com/artifact/com.helger/ph-css
+    compile group: 'com.helger', name: 'ph-css', version: '6.1.1'
+    compile 'com.squareup:kotlinpoet:0.7.0'
+    compile gradleApi()
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+pluginBundle {
+    website = 'https://github.com/ligol/IconicsFontGenerator'
+    vcsUrl = 'https://github.com/ligol/IconicsFontGenerator'
+    plugins {
+        iconicsGeneratorPlugin {
+            id = 'fr.ligol.iconics_generator'
+            displayName = 'Iconics Generator Plugin'
+            description = 'This plugins generate custom IconicsFont from fontastic'
+            tags = ['iconics', 'font', 'generator']
+        }
+    }
+}

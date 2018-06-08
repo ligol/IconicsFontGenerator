@@ -29,7 +29,7 @@ buildscript {
   }
 
   dependencies {
-    classpath "fr.ligol:iconics_generator:$version"
+    classpath "gradle.plugin.fr.ligol:gradle-iconics-generator:$version"
   }
 }
 ```

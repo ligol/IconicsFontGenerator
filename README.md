@@ -37,16 +37,16 @@ The current version (1.0-alpha1) is known to work with Gradle versions up to 4.5
 
 ```
 iconics {
-  "fonstaticApiKey": "MY FONTASTIC API KEY"
-  "name": "name e.g. 'Google Material'" default: "iconics"
-  "code": "code e.g. 'gmd'" default: "ico"
-  "versionName": "versionname e.g. '2.1.0.1'" default: "1.0.0"
-  "versionCode": "versioncode e.g. '21001'" default: "1"
-  "author": "author e.g. 'Google'" default: ""
-  "url": "url e.g. '...'" default: ""
-  "description": "description e.g. '...'" default: ""
-  "license": "license e.g. '...'" default: ""
-  "licenseUrl": "licenseurl e.g. '...'" default: ""
+    fonstaticApiKey = "MY FONTASTIC API KEY"
+    name = "name e.g. 'Google Material'" default: "iconics"
+    code = "code e.g. 'gmd'" default: "ico"
+    versionName = "versionname e.g. '2.1.0.1'" default: "1.0.0"
+    versionCode = "versioncode e.g. '21001'" default: "1"
+    author = "author e.g. 'Google'" default: ""
+    url = "url e.g. '...'" default: ""
+    description = "description e.g. '...'" default: ""
+    license = "license e.g. '...'" default: ""
+    licenseUrl = "licenseurl e.g. '...'" default: ""
 }
 ```
 

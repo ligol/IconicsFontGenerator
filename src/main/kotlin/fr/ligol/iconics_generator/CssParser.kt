@@ -29,6 +29,9 @@ class CssParser(private val cssFile: String) {
                 }
             }
         }
+        for (c in map) {
+            println(c.key)
+        }
         return map
     }
 

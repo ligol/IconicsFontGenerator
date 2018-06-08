@@ -34,7 +34,7 @@ buildscript {
 }
 ```
 
-The current version (1.0-alpha1) is known to work with Gradle versions up to 4.5.
+The current version (1.1-alpha1) is known to work with Gradle versions up to 4.5.
 
 ## Configuration
 

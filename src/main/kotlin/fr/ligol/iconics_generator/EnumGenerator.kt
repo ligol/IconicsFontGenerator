@@ -25,8 +25,8 @@ class EnumGenerator(private val configuration: IconicGeneratorPluginExtension,
         for (item in items.entries) {
             val name = item.key.replace(".icon", configuration.code).replace("-", "_")
             val value = item.value.replace("\\e", "\\ue")
-
-            builder.addEnumConstant(name, TypeSpec.anonymousClassBuilder(value)
+            val code = Integer.parseInt(value.substring(1, value.length - 1).substring(2), 16)
+            builder.addEnumConstant(name, TypeSpec.anonymousClassBuilder("\'%L\'", code.toChar())
                     .build())
         }
     }
@@ -42,7 +42,7 @@ class EnumGenerator(private val configuration: IconicGeneratorPluginExtension,
     private fun createGetCharacterFunction(): FunSpec {
         return FunSpec.builder("getCharacter")
                 .addModifiers(KModifier.OVERRIDE)
-                .returns(String::class)
+                .returns(Char::class)
                 .addStatement("return character")
                 .build()
     }
@@ -60,7 +60,7 @@ class EnumGenerator(private val configuration: IconicGeneratorPluginExtension,
                 .addModifiers(KModifier.OVERRIDE)
                 .returns(itypefaceType)
                 .beginControlFlow("if (typeface2 == null)")
-                .addStatement("typeface2 = %S()", configuration.name)
+                .addStatement("typeface2 = %s()".format(configuration.name))
                 .endControlFlow()
                 .addStatement("return typeface2 as ITypeface")
                 .build()

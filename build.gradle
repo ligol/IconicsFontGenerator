@@ -16,7 +16,7 @@ plugins {
 apply plugin: 'kotlin'
 
 group 'fr.ligol'
-version '1.0-alpha1'
+version '1.1-alpha1'
 
 sourceCompatibility = 1.8
 

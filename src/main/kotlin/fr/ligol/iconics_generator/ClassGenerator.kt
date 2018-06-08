@@ -3,24 +3,27 @@ package fr.ligol.iconics_generator
 import com.squareup.kotlinpoet.*
 import java.util.HashMap
 
+
+
 class ClassGenerator(private val configuration: IconicGeneratorPluginExtension,
                      private val items : Map<String, String>) {
     fun build(): FileSpec {
+        val v: String
         return FileSpec.builder(packageName, configuration.name)
                 .addType(TypeSpec.classBuilder(configuration.name)
                         .primaryConstructor(FunSpec.constructorBuilder().build())
-                        .superclass(itypefaceType)
+                        .addSuperinterface(itypefaceType)
                         .companionObject(createCompanionObject())
                         .addFunction(createGetCharactersFunction())
                         .addFunction(createGetIconsFunction())
-                        .addFunction(createOverrideFunctionReturningDefaultString("mappingPrefix", configuration.code))
-                        .addFunction(createOverrideFunctionReturningDefaultString("fontName", configuration.name))
-                        .addFunction(createOverrideFunctionReturningDefaultString("version", configuration.versionName))
-                        .addFunction(createOverrideFunctionReturningDefaultString("author", configuration.author))
-                        .addFunction(createOverrideFunctionReturningDefaultString("url", configuration.url))
-                        .addFunction(createOverrideFunctionReturningDefaultString("description", configuration.description))
-                        .addFunction(createOverrideFunctionReturningDefaultString("license", configuration.license))
-                        .addFunction(createOverrideFunctionReturningDefaultString("licenseUrl", configuration.licenseUrl))
+                        .addFunction(createOverrideFunctionReturningDefaultString("getMappingPrefix", configuration.code))
+                        .addFunction(createOverrideFunctionReturningDefaultString("getFontName", configuration.name))
+                        .addFunction(createOverrideFunctionReturningDefaultString("getVersion", configuration.versionName))
+                        .addFunction(createOverrideFunctionReturningDefaultString("getAuthor", configuration.author))
+                        .addFunction(createOverrideFunctionReturningDefaultString("getUrl", configuration.url))
+                        .addFunction(createOverrideFunctionReturningDefaultString("getDescription", configuration.description))
+                        .addFunction(createOverrideFunctionReturningDefaultString("getLicense", configuration.license))
+                        .addFunction(createOverrideFunctionReturningDefaultString("getLicenseUrl", configuration.licenseUrl))
                         .addFunction(createIconCountFunction())
                         .addFunction(createIconFunction())
                         .addFunction(createGetTypefaceFunction())
@@ -31,6 +34,7 @@ class ClassGenerator(private val configuration: IconicGeneratorPluginExtension,
 
     private fun createGetTypefaceFunction(): FunSpec {
         return FunSpec.builder("getTypeface")
+                .addModifiers(KModifier.OVERRIDE, KModifier.PUBLIC)
                 .addParameter("context", contextType)
                 .returns(typefaceType.asNullable())
                 .beginControlFlow("if (typeface == null)")
@@ -54,7 +58,7 @@ class ClassGenerator(private val configuration: IconicGeneratorPluginExtension,
     }
 
     private fun createIconCountFunction(): FunSpec {
-        return FunSpec.builder("iconCount")
+        return FunSpec.builder("getIconCount")
                 .addModifiers(KModifier.OVERRIDE)
                 .returns(Int::class)
                 .addStatement("return mChars!!.size")
@@ -65,7 +69,7 @@ class ClassGenerator(private val configuration: IconicGeneratorPluginExtension,
         return FunSpec.builder("getIcons")
                 .addModifiers(KModifier.OVERRIDE)
                 .returns(stringCollectionType)
-                .addStatement("val icons = LinkedList<String>()")
+                .addStatement("val icons = %T<String>()", linkedListType)
                 .beginControlFlow("for (value in Icon.values())")
                 .addStatement("icons.add(value.name)")
                 .endControlFlow()
@@ -84,27 +88,27 @@ class ClassGenerator(private val configuration: IconicGeneratorPluginExtension,
                 .endControlFlow()
                 .addStatement("mChars = aChars")
                 .endControlFlow()
-                .addStatement("return mChars")
+                .addStatement("return mChars!!")
                 .build()
     }
 
     private fun createCompanionObject() : TypeSpec {
         return TypeSpec.companionObjectBuilder()
                 .addProperty(PropertySpec.builder("TTF_FILE", String::class)
-                        .initializer("%s-font-v%s.ttf".format(configuration.name.toLowerCase(), configuration.versionName))
+                        .initializer("\"%s-font-v%s.ttf\"".format(configuration.name.toLowerCase(), configuration.versionName))
                         .addModifiers(KModifier.CONST, KModifier.PRIVATE)
                         .build())
-                .addProperty(PropertySpec.builder("typeface", typefaceType)
+                .addProperty(PropertySpec.builder("typeface", typefaceType.asNullable())
                         .mutable(true)
                         .initializer("null")
                         .addModifiers(KModifier.PRIVATE)
                         .build())
-                .addProperty(PropertySpec.builder("mChars", String::class)
+                .addProperty(PropertySpec.builder("mChars", charHashMapType.asNullable())
                         .mutable(true)
                         .initializer("null")
                         .addModifiers(KModifier.PRIVATE)
                         .build())
-                .addProperty(PropertySpec.builder("typeface2", itypefaceType)
+                .addProperty(PropertySpec.builder("typeface2", itypefaceType.asNullable())
                         .mutable(true)
                         .initializer("null")
                         .addModifiers(KModifier.PRIVATE)
@@ -127,6 +131,8 @@ class ClassGenerator(private val configuration: IconicGeneratorPluginExtension,
         val contextType = ClassName("android.content", "Context")
         val typefaceType = ClassName("android.graphics", "Typeface")
         val itypefaceType = ClassName("com.mikepenz.iconics.typeface", "ITypeface")
+        val stringType = ClassName("kotlin", "String")
         val iiconType = ClassName("com.mikepenz.iconics.typeface", "IIcon")
+        val linkedListType = ClassName("java.util", "LinkedList")
     }
 }

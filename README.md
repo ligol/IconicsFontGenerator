@@ -22,7 +22,10 @@ apply plugin: "fr.ligol.iconics_generator"
 
 buildscript {
   repositories {
-    jcenter()
+    maven {
+      url "https://plugins.gradle.org/m2/"
+    }
+
   }
 
   dependencies {

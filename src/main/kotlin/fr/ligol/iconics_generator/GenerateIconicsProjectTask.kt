@@ -23,8 +23,8 @@ open class GenerateIconicsProjectTask : org.gradle.api.DefaultTask() {
 
     @TaskAction
     fun generateIconics() {
-        val fonstaticApiKey = extension.fonstaticApiKey
-        val parser = CssParser(downloadFile("https://file.myfontastic.com/$fonstaticApiKey/icons.css")!!.string())
+        val fontasticApiKey = extension.fontasticApiKey
+        val parser = CssParser(downloadFile("https://file.myfontastic.com/$fontasticApiKey/icons.css")!!.string())
         val itemMap = parser.getFontItems()
 
         val file = ClassGenerator(extension, itemMap).build()
@@ -67,7 +67,7 @@ open class GenerateIconicsProjectTask : org.gradle.api.DefaultTask() {
         val request = Request.Builder().url(url).build()
         val response = client.newCall(request).execute()
         if (!response.isSuccessful) {
-            throw IOException("Failed to download file: " + response)
+            throw IOException("Failed to download file: $response")
         }
         return response.body()
     }

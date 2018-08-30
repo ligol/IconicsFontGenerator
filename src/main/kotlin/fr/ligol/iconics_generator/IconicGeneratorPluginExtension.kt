@@ -10,5 +10,5 @@ open class IconicGeneratorPluginExtension(
     var description: String = "",
     var license: String = "",
     var licenseUrl: String = "",
-    var fonstaticApiKey: String = ""
+    var fontasticApiKey: String = ""
 )

@@ -40,7 +40,7 @@ The current version (1.1-alpha1) is known to work with Gradle versions up to 4.5
 
 ```
 iconics {
-    fonstaticApiKey = "MY FONTASTIC API KEY"
+    fontasticApiKey = "MY FONTASTIC API KEY"
     name = "name e.g. 'Google Material'" default: "iconics"
     code = "code e.g. 'gmd'" default: "ico"
     versionName = "versionname e.g. '2.1.0.1'" default: "1.0.0"
